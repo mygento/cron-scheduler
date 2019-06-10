@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mygento_CronScheduler::menu" title="Cron Scheduler" module="Mygento_CronScheduler" sortOrder="999" parent="Magento_Backend::system" resource="Mygento_CronScheduler::menu"/>
+        <add id="Mygento_CronScheduler::jobs" title="Cron Jobs" module="Mygento_CronScheduler" sortOrder="999" parent="Mygento_CronScheduler::menu" action="scheduler/job/listing" resource="Mygento_CronScheduler::jobs"/>
+        <add id="Mygento_CronScheduler::schedule" title="Cron Schedule" module="Mygento_CronScheduler" sortOrder="999" parent="Mygento_CronScheduler::menu" action="scheduler/schedule/listing" resource="Mygento_CronScheduler::schedule"/>
+        <add id="Mygento_CronScheduler::timeline" title="Cron Timeline" module="Mygento_CronScheduler" sortOrder="999" parent="Mygento_CronScheduler::menu" action="scheduler/schedule/timeline" resource="Mygento_CronScheduler::timeline"/>
+        <add id="Mygento_CronScheduler::configuration" title="Configuration" module="Mygento_CronScheduler" sortOrder="999" parent="Mygento_CronScheduler::menu" action="adminhtml/system_config/edit/section/cronscheduler" resource="Mygento_CronScheduler::configuration" />
+    </menu>
+</config>

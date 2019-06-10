@@ -1,0 +1,47 @@
+{
+  "name": "mygento/module-cron-scheduler",
+  "type": "magento2-module",
+  "version": "2.3.0",
+  "license": "OSL-3.0",
+  "homepage": "https://github.com/mygento/cron-scheduler",
+  "description": "Mygento Cron Scheduler",
+  "authors": [
+    {
+      "name": "Nikita Tarasov",
+      "email": "nikita@mygento.net",
+      "homepage": "http://www.mygento.net/",
+      "role": "Developer"
+    },
+    {
+      "name": "Mygento",
+      "email": "connect@mygento.net",
+      "homepage": "https://www.mygento.ru/"
+    }
+  ],
+  "keywords": [
+    "magento2",
+    "mygento"
+  ],
+  "require": {
+    "mygento/module-base": "~2.3.0",
+    "magento/module-cron": "~100.3.0"
+  },
+  "require-dev": {
+    "mygento/coding-standard": "^2.13.5",
+    "magento/magento-coding-standard": "~1.0.0"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Mygento\\CronScheduler\\": ""
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.magento.com"
+    }
+  ]
+}
