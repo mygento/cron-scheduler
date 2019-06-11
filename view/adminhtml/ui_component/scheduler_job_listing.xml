@@ -144,22 +144,12 @@
                 </item>
             </argument>
         </column>
-        <column name="instance">
+        <column name="executor">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Instance</item>
+                    <item name="label" xsi:type="string" translate="true">Executor</item>
                     <item name="sortOrder" xsi:type="number">40</item>
-                    <item name="sortable" xsi:type="boolean">true</item>
-                </item>
-            </argument>
-        </column>
-        <column name="method">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Method</item>
-                    <item name="sortOrder" xsi:type="number">45</item>
                     <item name="sortable" xsi:type="boolean">true</item>
                 </item>
             </argument>
@@ -184,19 +174,19 @@
                 </item>
             </argument>
         </column>
-        <!-- <column name="is_active">
+        <column name="is_active">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Mygento\CronScheduler\Ui\DataProvider\Column\Form</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
-                    <item name="bodyTmpl" xsi:type="string">Mygento_CronScheduler/job/status</item>
+                    <item name="bodyTmpl" xsi:type="string">Mygento_CronScheduler/status/job</item>
                     <item name="sortOrder" xsi:type="number">70</item>
                     <item name="sortable" xsi:type="boolean">true</item>
                 </item>
             </argument>
-        </column> -->
+        </column>
         <!-- <actionsColumn name="actions" class="Mygento\CronScheduler\Ui\Component\Listing\Column\Actions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

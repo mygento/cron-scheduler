@@ -16,6 +16,5 @@ class MassKill extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-
     }
 }

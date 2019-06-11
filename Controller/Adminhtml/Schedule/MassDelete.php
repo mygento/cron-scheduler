@@ -16,6 +16,5 @@ class MassDelete extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-
     }
 }
