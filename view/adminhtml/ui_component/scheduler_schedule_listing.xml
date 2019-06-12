@@ -131,36 +131,6 @@
                 </item>
             </argument>
         </column>
-        <column name="cpu_usage">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">textRange</item>
-                    <item name="label" xsi:type="string" translate="true">CPU Usage(ms)</item>
-                    <item name="sortOrder" xsi:type="number">40</item>
-                    <item name="sortable" xsi:type="boolean">true</item>
-                </item>
-            </argument>
-        </column>
-        <column name="system_usage">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">textRange</item>
-                    <item name="label" xsi:type="string" translate="true">System Usage(ms)</item>
-                    <item name="sortOrder" xsi:type="number">50</item>
-                    <item name="sortable" xsi:type="boolean">true</item>
-                </item>
-            </argument>
-        </column>
-        <column name="memory_usage">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">textRange</item>
-                    <item name="label" xsi:type="string" translate="true">Memory Usage(mb)</item>
-                    <item name="sortOrder" xsi:type="number">60</item>
-                    <item name="sortable" xsi:type="boolean">true</item>
-                </item>
-            </argument>
-        </column>
         <column name="messages">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+<!--        <css src="Mygento_CronScheduler::css/timeline.css"/>-->
+        <!--<script src="Mygento_CronScheduler::js/timeline.js"/>-->
+        <script src="https://www.gstatic.com/charts/loader.js" src_type="url"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mygento\CronScheduler\Block\Adminhtml\Timeline" name="scheduler_schedule_timeline" template="Mygento_CronScheduler::timeline/timeline.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
