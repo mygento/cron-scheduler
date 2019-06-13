@@ -176,7 +176,7 @@
         </column>
         <column name="is_active">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Mygento\CronScheduler\Ui\DataProvider\Column\Form</item>
+                <item name="options" xsi:type="object">Mygento\CronScheduler\Ui\Component\Listing\Column\Form</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="dataType" xsi:type="string">select</item>

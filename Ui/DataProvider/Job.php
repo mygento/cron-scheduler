@@ -24,6 +24,26 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
     const CRON_XML = 'xml';
 
     /**
+     * @var array
+     */
+    private $likeFilters = [];
+
+    /**
+     * @var array
+     */
+    private $rangeFilters = [];
+
+    /**
+     * @var string
+     */
+    private $sortField = 'code';
+
+    /**
+     * @var string
+     */
+    private $sortDir = 'asc';
+
+    /**
      * @var \Magento\Cron\Model\Config\Reader\Xml
      */
     private $reader;
@@ -43,9 +63,9 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     private $cronConfig;
 
-    private $size;
+    private $size = 20;
 
-    private $offset;
+    private $offset = 1;
 
     public function __construct(
         \Mygento\CronScheduler\Helper\Data $helper,
@@ -83,12 +103,63 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
             }
         }
 
+        //sorting
+        $sortField = $this->sortField;
+        $sortDir = $this->sortDir;
+        usort($data, function ($a, $b) use ($sortField, $sortDir) {
+            if ($sortDir == 'asc') {
+                return $a[$sortField] > $b[$sortField];
+            }
+
+            return $a[$sortField] < $b[$sortField];
+        });
+
+        //filters
+        foreach ($this->likeFilters as $column => $value) {
+            $data = array_filter($data, function ($item) use ($column, $value) {
+                return stripos($item[$column], $value) !== false;
+            });
+        }
+
+        //pagination
+        $data = array_slice($data, ($this->offset - 1) * $this->size, $this->size);
+
         $totalRecords = count($data);
 
         return [
             'totalRecords' => $totalRecords,
             'items' => array_values($data),
         ];
+    }
+
+    /**
+     * Add filters to the collection
+     * @param \Magento\Framework\Api\Filter $filter
+     */
+    public function addFilter(\Magento\Framework\Api\Filter $filter)
+    {
+        if ($filter->getConditionType() == 'like') {
+            $this->likeFilters[$filter->getField()] = substr($filter->getValue(), 1, -1);
+        } elseif ($filter->getConditionType() == 'eq') {
+            $this->likeFilters[$filter->getField()] = $filter->getValue();
+        } elseif ($filter->getConditionType() == 'gteq') {
+            $this->rangeFilters[$filter->getField()]['from'] = $filter->getValue();
+        } elseif ($filter->getConditionType() == 'lteq') {
+            $this->rangeFilters[$filter->getField()]['to'] = $filter->getValue();
+        }
+    }
+
+    /**
+     * Set the order of the collection
+     * @param string $field
+     * @param string $direction
+     */
+    public function addOrder(
+        $field,
+        $direction
+    ) {
+        $this->sortField = $field;
+        $this->sortDir = strtolower($direction);
     }
 
     /**
