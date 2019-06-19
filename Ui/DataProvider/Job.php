@@ -122,13 +122,13 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
         }
 
         //pagination
-        $data = array_slice($data, ($this->offset - 1) * $this->size, $this->size);
+        $result = array_slice($data, ($this->offset - 1) * $this->size, $this->size);
 
-        $totalRecords = count($data);
+        $totalRecords = count($result);
 
         return [
             'totalRecords' => $totalRecords,
-            'items' => array_values($data),
+            'items' => array_values($result),
         ];
     }
 
@@ -187,7 +187,11 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
         if (!isset($job['is_active'])) {
             $job['is_active'] = 1;
         }
-        $job['executor'] = $job['instance'] . ':' . $job['method'];
+        $job['executor'] = '';
+
+        if (isset($job['instance']) && isset($job['method'])) {
+            $job['executor'] = $job['instance'] . ':' . $job['method'];
+        }
 
         return $job;
     }
