@@ -87,18 +87,20 @@ class Timeline extends \Magento\Backend\Block\Template
     private function getStatusLevel($status): string
     {
         switch ($status) {
-            case \Magento\Cron\Model\Schedule::STATUS_ERROR:
             case \Magento\Cron\Model\Schedule::STATUS_MISSED:
+                $level = 'f75300';
+                break;
+            case \Magento\Cron\Model\Schedule::STATUS_ERROR:
                 $level = 'ff0000';
                 break;
             case \Magento\Cron\Model\Schedule::STATUS_RUNNING:
-                $level = 'ffff00';
+                $level = '0000ff';
                 break;
             case \Magento\Cron\Model\Schedule::STATUS_PENDING:
-                $level = 'd3d3d3';
+                $level = 'a9a9a9';
                 break;
             case \Magento\Cron\Model\Schedule::STATUS_SUCCESS:
-                $level = '00ff00';
+                $level = '36b963';
                 break;
             default:
                 $level = '000000';
