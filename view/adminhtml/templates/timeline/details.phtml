@@ -1,0 +1,71 @@
+<?php
+$offset = $this->getOffset();
+$schedule = $block->getSchedule();
+?>
+<div class="timeline-details" style="left: <?= $offset - 150 ?>px;">
+    <div class="timeline-headline timeline-headline-success"><h3><?= str_replace('_', ' ', $schedule->getJobCode())?></h3></div>
+    <div class="timeline-content">
+        <table>
+            <tr>
+                <td class="label"><?php echo __('Status') ?>:</td>
+                <td>
+                    <div class="status"><?php echo $schedule->getStatus(); ?></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Created at') ?>:</td>
+                <td><?php echo $block->decorateTime($schedule->getCreatedAt()); ?></td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Scheduled at') ?>:</td>
+                <td><?php echo $block->decorateTime($schedule->getScheduledAt()); ?></td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Executed at') ?>:</td>
+                <td><?php echo $block->decorateTime($schedule->getExecutedAt()); ?></td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Finished at') ?>:</td>
+                <td><?php echo $block->decorateTime($schedule->getFinishedAt()); ?></td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Last seen at') ?>:</td>
+                <td><?php echo $block->decorateTime($schedule->getLastSeen()); ?></td>
+            </tr>
+            <tr>
+                <td class="label"><?php echo __('Id') ?>:</td>
+                <td><?php echo $schedule->getId(); ?></td>
+            </tr>
+            <?php
+            /*
+            <tr>
+                <td class="label"><?php echo __('Pid') ?>:</td>
+                <td><?php echo $schedule->getPid(); ?></td>
+            </tr>
+             */
+            ?>
+            <tr>
+                <td class="label"><?php echo __('Host') ?>:</td>
+                <td><?php echo $schedule->getHost(); ?></td>
+            </tr>
+            <?php if ($schedule->getMessages()): ?>
+                <tr>
+                    <td class="label" colspan="2"><?php echo __('Message') ?>:</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <pre><?php echo $schedule->getMessages(); ?></pre>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php
+            /*
+            <tr>
+                <td class="label"><?php echo __('Memory Usage') ?>:</td>
+                <td><?php echo number_format($schedule->getMemoryUsage(), 2) . ' MB'; ?></td>
+            </tr>
+             */
+            ?>
+        </table>
+    </div>
+</div>

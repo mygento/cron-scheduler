@@ -10,10 +10,27 @@ namespace Mygento\CronScheduler\Block\Adminhtml;
 
 class Timeline extends \Magento\Backend\Block\Template
 {
+    const ZOOM = 15;
+
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     private $datetime;
+
+    /**
+     * @var int starttime
+     */
+    private $starttime;
+
+    /**
+     * @var int endtime
+     */
+    private $endtime;
+
+    /**
+     * @var array schedules
+     */
+    private $schedules = [];
 
     /**
      * @var \Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory
@@ -31,93 +48,184 @@ class Timeline extends \Magento\Backend\Block\Template
         $this->datetime = $datetime;
     }
 
-    public function getJobData(): array
+    /**
+     * Get all available job codes
+     *
+     * @return array
+     */
+    public function getAvailableJobCodes()
+    {
+        $this->getJobData();
+
+        return array_keys($this->schedules);
+    }
+
+    public function getTimelinePanelWidth()
+    {
+        return 1 + ($this->endtime - $this->starttime) / self::ZOOM;
+    }
+
+    public function getStarttime()
+    {
+        return $this->starttime;
+    }
+
+    public function getNowline()
+    {
+        return (time() - $this->starttime) / self::ZOOM;
+    }
+
+    public function getEndtime()
+    {
+        return $this->endtime;
+    }
+
+    public function decorateTime($value, $echoToday = false)
+    {
+        $result = $this->datetime->date('Y-m-d H:i', $value);
+        $replace = [
+            $this->datetime->date('Y-m-d ', time()) => $echoToday ? __('Today') : '',
+            $this->datetime->date('Y-m-d ', strtotime('+1 day')) => __('Tomorrow') . ', ',
+            $this->datetime->date('Y-m-d ', strtotime('-1 day')) => __('Yesterday') . ', ',
+        ];
+
+        return str_replace(array_keys($replace), array_values($replace), $result);
+    }
+
+    /**
+     * Get schedules for given code
+     *
+     * @param string $code
+     * @return array
+     */
+    public function getSchedulesForCode($code)
+    {
+        return $this->schedules[$code];
+    }
+
+    public function getJobData()
     {
         $data = [];
         $schedules = $this->collectionFactory->create();
         $schedules->getSelect()->order('job_code');
 
+        $minDate = null;
+        $maxDate = null;
+
         foreach ($schedules as $schedule) {
-            $start = $schedule->getExecutedAt();
-            $end = $schedule->getFinishedAt();
-            $status = $schedule->getStatus();
-
-            if ($start == null) {
-                $start = $schedule->getScheduledAt();
-                $end = $schedule->getScheduledAt();
-            }
-
-            if ($status == \Magento\Cron\Model\Schedule::STATUS_RUNNING) {
-                $end = $this->datetime->date('Y-m-d H:i:s');
-            }
-
-            if ($status == \Magento\Cron\Model\Schedule::STATUS_ERROR && $end == null) {
-                $end = $start;
-            }
-
-            $tooltip = '';
-
-            $data[] = [
-                $schedule->getJobCode(),
-                $status,
-                $this->getStatusLevel($status),
-                $tooltip,
-                $this->formatDateForJs($start),
-                $this->formatDateForJs($end),
-                //$schedule->getScheduleId(),
-            ];
+            $minDate = is_null($minDate) ? $start : min($minDate, $start);
+            $maxDate = is_null($maxDate) ? $start : max($maxDate, $start);
+            $this->schedules[$schedule->getJobCode()][] = $schedule;
         }
 
-        return $data;
-    }
-
-    public function getJobCount(): int
-    {
-        $schedules = $this->collectionFactory->create();
-        $schedules->getSelect()->group('job_code')->order('job_code');
-
-        return $schedules->getSize();
+        $this->starttime = $this->hourFloor(strtotime($minDate));
+        $this->endtime = $this->hourCeil(strtotime($maxDate));
     }
 
     /**
-     * Get Status Level
-     * @param $status
+     * Get attributes for div representing a gantt element
+     *
+     * @param $schedule
      * @return string
      */
-    private function getStatusLevel($status): string
+    public function getScheduleResult($schedule)
     {
-        switch ($status) {
-            case \Magento\Cron\Model\Schedule::STATUS_MISSED:
-                $level = 'f75300';
-                break;
-            case \Magento\Cron\Model\Schedule::STATUS_ERROR:
-                $level = 'ff0000';
-                break;
-            case \Magento\Cron\Model\Schedule::STATUS_RUNNING:
-                $level = '0000ff';
-                break;
-            case \Magento\Cron\Model\Schedule::STATUS_PENDING:
-                $level = 'a9a9a9';
-                break;
-            case \Magento\Cron\Model\Schedule::STATUS_SUCCESS:
-                $level = '36b963';
-                break;
-            default:
-                $level = '000000';
+        if ($schedule->getStatus() == \Magento\Cron\Model\Schedule::STATUS_RUNNING) {
+            $duration = time() - strtotime($this->getStart($schedule));
+        } else {
+            $duration = $this->getDuration($schedule) ? $this->getDuration($schedule) : 0;
+        }
+        $duration = $duration / self::ZOOM;
+        $duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
+        $duration = max($duration, 3);
+        $offset = (strtotime($this->getStart($schedule)) - $this->starttime) / self::ZOOM;
+        if ($offset < 0) { // cut bar
+            $duration += $offset;
+            $offset = 0;
+        }
+        $result = sprintf(
+            '<div class="timeline-task timeline-task-%s" id="id_%s" style="width: %spx; left: %spx;" ></div>',
+            $schedule->getStatus(),
+            $schedule->getScheduleId(),
+            $duration,
+            $offset
+        );
+        if ($schedule->getStatus() == \Magento\Cron\Model\Schedule::STATUS_RUNNING) {
+            $offset += $duration;
+            $duration = strtotime($schedule->getEta()) - time();
+            $duration = $duration / self::ZOOM;
+            $result = sprintf(
+                '<div class="timeline-estimation" style="width: %spx; left: %spx;" ></div>',
+                $duration,
+                $offset
+                ) . $result;
         }
 
-        return $level;
+        return $result;
+    }
+
+    public function getOffset($schedule)
+    {
+        $offset = (strtotime($this->getStart($schedule)) - $this->starttime) / self::ZOOM;
+        if ($offset < 0) { // cut bar
+            $offset = 0;
+        }
+
+        return $offset;
     }
 
     /**
-     * Generate js date format for given date
-     * @param $date
+     * Return the last full houd
+     *
+     * @param int $timestamp
+     * @return int
+     */
+    private function hourFloor($timestamp)
+    {
+        return mktime(date('H', $timestamp), 0, 0, date('n', $timestamp), date('j', $timestamp), date('Y', $timestamp));
+    }
+
+    /**
+     * Returns the next full hour
+     *
+     * @param int $timestamp
+     * @return int
+     */
+    private function hourCeil($timestamp)
+    {
+        return mktime(date('H', $timestamp) + 1, 0, 0, date('n', $timestamp), date('j', $timestamp), date('Y', $timestamp));
+    }
+
+    private function getDuration($shedule)
+    {
+        $duration = false;
+        if ($shedule->getExecutedAt() && ($shedule->getExecutedAt() != '0000-00-00 00:00:00')) {
+            if ($shedule->getFinishedAt() && ($shedule->getFinishedAt() != '0000-00-00 00:00:00')) {
+                $time = strtotime($shedule->getFinishedAt());
+            } elseif ($this->getStatus() == \Magento\Cron\Model\Schedule::STATUS_RUNNING) {
+                $time = time();
+            } else {
+                return false;
+            }
+            $duration = $time - strtotime($shedule->getExecutedAt());
+        }
+
+        return $duration;
+    }
+
+    /**
+     * Get start time (planned or actual)
+     *
+     * @param mixed $shedule
      * @return string
      */
-    private function formatDateForJs($date)
+    private function getStart($shedule)
     {
-        return 'new Date(' . $this->datetime->date('Y,', $date)
-            . ($this->datetime->date('m', $date) - 1)
-            . $this->datetime->date(',d,H,i,s,0', $date) . ')';
+        $starttime = $shedule->getExecutedAt();
+        if (empty($starttime) || $starttime == '0000-00-00 00:00:00') {
+            $starttime = $shedule->getScheduledAt();
+        }
+
+        return $starttime;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+/*
 // print_r($block->getJobData());
 $data = $block->getJobData();
 $cnt = $block->getJobCount();
@@ -32,3 +33,58 @@ $cnt = $block->getJobCount();
     }
 </script>
 <div id="timeline" style="height: <?= $cnt * 43; ?>px"></div>
+ *
+ */
+?>
+<?php
+$jobCodes = $block->getAvailableJobCodes();
+?>
+<div class="timeline-wrapper">
+    <div class="timeline-column">
+        <div class="timeline-box">
+            <div class="timeline-panel" style="width: <?php echo $block->getTimelinePanelWidth(); ?>px;">
+                <div class="timeline-now" style="left: <?php echo $this->getNowline(); ?>px"><div class="timeline-arrow"></div></div>
+                <div class="timeline-row timeline-hours">
+                    <div class="timeline-element">
+                        <?php for ($i = $block->getStarttime(); $i < $block->getEndtime(); $i += 60 * 60): ?>
+                            <div class="timeline-hour"><span><?php echo $block->decorateTime($i, false); ?></span></div>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+
+                <?php foreach ($jobCodes as $jobCode): /* @var $jobCode string */ ?>
+                    <?php $schedules = $this->getSchedulesForCode($jobCode); ?>
+                    <div class="timeline-row">
+                        <div class="timeline-element timeline_<?php echo $jobCode; ?>">
+                            <?php foreach ($schedules as $schedule): ?>
+                                <?php echo $block->getScheduleResult($schedule); ?>
+                                <?php
+                                echo $this->getLayout()
+                                    ->createBlock('Mygento\CronScheduler\Block\Adminhtml\Timeline\Detail')
+                                    ->setSchedule($schedule)
+                                    ->setOffset($block->getOffset($schedule))
+                                    ->toHtml();
+                                ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="timeline-leftcolumn">
+    <div class="timeline-row hours">
+        <div class="caption">
+
+        </div>
+    </div>
+
+    <?php foreach ($jobCodes as $jobCode): /* @var $jobCode string */ ?>
+        <div class="timeline-row">
+            <div class="timeline-configuration">
+                <?php echo $jobCode; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
