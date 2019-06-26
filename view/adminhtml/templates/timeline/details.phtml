@@ -3,7 +3,7 @@ $offset = $this->getOffset();
 $schedule = $block->getSchedule();
 ?>
 <div class="timeline-details" style="left: <?= $offset - 150 ?>px;">
-    <div class="timeline-headline timeline-headline-success"><h3><?= str_replace('_', ' ', $schedule->getJobCode())?></h3></div>
+    <div class="timeline-headline timeline-headline-<?= $schedule->getStatus() ?>"><h3><?= str_replace('_', ' ', $schedule->getJobCode())?></h3></div>
     <div class="timeline-content">
         <table>
             <tr>
@@ -53,9 +53,7 @@ $schedule = $block->getSchedule();
                     <td class="label" colspan="2"><?php echo __('Message') ?>:</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        <pre><?php echo $schedule->getMessages(); ?></pre>
-                    </td>
+                    <td colspan="2"><?php echo $schedule->getMessages(); ?></td>
                 </tr>
             <?php endif; ?>
             <?php

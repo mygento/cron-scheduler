@@ -1,42 +1,4 @@
 <?php
-/*
-// print_r($block->getJobData());
-$data = $block->getJobData();
-$cnt = $block->getJobCount();
-?>
-<script type="text/javascript">
-    google.charts.load("current", {packages:["timeline"]});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var container = document.getElementById('timeline');
-        var chart = new google.visualization.Timeline(container);
-        var dataTable = new google.visualization.DataTable();
-
-        dataTable.addColumn({ type: 'string', id: 'job' });
-        dataTable.addColumn({ type: 'string', id: 'label' });
-        dataTable.addColumn({ type: 'string', role: 'tooltip' });
-        dataTable.addColumn({ type: 'string', id: 'style', role: 'style' });
-        dataTable.addColumn({ type: 'date', id: 'Start' });
-        dataTable.addColumn({ type: 'date', id: 'End' });
-
-        dataTable.addRows([
-        <?php foreach ($block->getJobData() as $row): ?>
-            ['<?= $row[0] ?>', '<?= $row[1] ?>', null, '#<?= $row[2] ?>',<?= $row[4] ?>, <?= $row[5] ?>],
-        <?php endforeach; ?>
-        ]);
-        var options = {
-            timeline: { showBarLabels: false },
-            tooltip: { isHtml: true }
-        };
-        chart.draw(dataTable, options);
-    }
-</script>
-<div id="timeline" style="height: <?= $cnt * 43; ?>px"></div>
- *
- */
-?>
-<?php
 $jobCodes = $block->getAvailableJobCodes();
 ?>
 <div class="timeline-wrapper">
@@ -75,9 +37,7 @@ $jobCodes = $block->getAvailableJobCodes();
 </div>
 <div class="timeline-leftcolumn">
     <div class="timeline-row hours">
-        <div class="caption">
-
-        </div>
+        <div class="caption">UTC</div>
     </div>
 
     <?php foreach ($jobCodes as $jobCode): /* @var $jobCode string */ ?>

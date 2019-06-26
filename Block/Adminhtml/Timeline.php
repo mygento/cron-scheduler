@@ -105,7 +105,6 @@ class Timeline extends \Magento\Backend\Block\Template
 
     public function getJobData()
     {
-        $data = [];
         $schedules = $this->collectionFactory->create();
         $schedules->getSelect()->order('job_code');
 
@@ -113,6 +112,8 @@ class Timeline extends \Magento\Backend\Block\Template
         $maxDate = null;
 
         foreach ($schedules as $schedule) {
+            $start = $schedule->getExecutedAt();
+
             $minDate = is_null($minDate) ? $start : min($minDate, $start);
             $maxDate = is_null($maxDate) ? $start : max($maxDate, $start);
             $this->schedules[$schedule->getJobCode()][] = $schedule;
