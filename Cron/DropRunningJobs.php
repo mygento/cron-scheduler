@@ -2,16 +2,12 @@
 
 /**
  * @author Mygento Team
- * @copyright 2019 Mygento (https://www.mygento.ru)
+ * @copyright 2019-2020 Mygento (https://www.mygento.ru)
  * @package Mygento_CronScheduler
  */
 
 namespace Mygento\CronScheduler\Cron;
 
-use Magento\Cron\Model\ResourceModel\Schedule\Collection as ScheduleCollection;
-use Magento\Cron\Model\ResourceModel\Schedule\CollectionFactory as ScheduleCollectionFactory;
-use Magento\Cron\Model\Schedule;
-use Magento\Framework\Stdlib\DateTime;
 use Mygento\CronScheduler\Api\ScheduleManagementInterface;
 use Mygento\CronScheduler\Helper\Data;
 use Psr\Log\LoggerInterface;

@@ -2,8 +2,8 @@
 
 /**
  * @author Mygento Team
- * @copyright 2017-2019 Mygento (https://www.mygento.ru)
- * @package Mygento_Configsync
+ * @copyright 2019-2020 Mygento (https://www.mygento.ru)
+ * @package Mygento_CronScheduler
  */
 
 namespace Mygento\CronScheduler\Console\Command;
@@ -61,7 +61,7 @@ class DropRunningJobs extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $this->output->writeln("<info>Start dropping of running jobs.</info>");
+        $this->output->writeln('<info>Start dropping of running jobs.</info>');
 
         try {
             $this->scheduleManagement->dropExceededRunningJobs();

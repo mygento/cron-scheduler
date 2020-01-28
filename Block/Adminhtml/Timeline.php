@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2019 Mygento (https://www.mygento.ru)
+ * @copyright 2019-2020 Mygento (https://www.mygento.ru)
  * @package Mygento_CronScheduler
  */
 
@@ -159,7 +159,7 @@ class Timeline extends \Magento\Backend\Block\Template
                 '<div class="timeline-estimation" style="width: %spx; left: %spx;" ></div>',
                 $duration,
                 $offset
-                ) . $result;
+            ) . $result;
         }
 
         return $result;
