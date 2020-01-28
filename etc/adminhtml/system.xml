@@ -19,7 +19,7 @@
                 </field>
                 <field id="running_jobs_timeout" translate="label comment" type="text" sortOrder="20" showInDefault="1"
                        showInWebsite="0" showInStore="0">
-                    <label>Running jobs limit</label>
+                    <label>Running jobs timeout</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                     <comment>Minutes from scheduled at.</comment>
                 </field>
