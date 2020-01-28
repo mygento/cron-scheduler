@@ -8,6 +8,10 @@
 
 namespace Mygento\CronScheduler\Helper;
 
+/**
+ * Class Data
+ * @package Mygento\CronScheduler\Helper
+ */
 class Data extends \Mygento\Base\Helper\Data
 {
     const XML_PATH_GENERAL_IS_DROP_RUNNING_JOBS = 'cron_scheduler/general/is_drop_running_jobs';
@@ -19,6 +23,8 @@ class Data extends \Mygento\Base\Helper\Data
     protected $code = 'cron_scheduler';
 
     /**
+     * Is drop running jobs
+     *
      * @return bool
      */
     public function isDropRunningJobs()
@@ -27,6 +33,8 @@ class Data extends \Mygento\Base\Helper\Data
     }
 
     /**
+     * Get running jobs timeout
+     *
      * @return int
      */
     public function getRunningJobsTimeout()
