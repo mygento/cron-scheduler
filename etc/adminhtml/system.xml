@@ -15,8 +15,9 @@
                        showInWebsite="0" showInStore="0">
                     <label>Drop Running Jobs</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Drop running jobs if running jobs timeout exceeded.</comment>
                 </field>
-                <field id="running_jobs_limit" translate="label comment" type="text" sortOrder="20" showInDefault="1"
+                <field id="running_jobs_timeout" translate="label comment" type="text" sortOrder="20" showInDefault="1"
                        showInWebsite="0" showInStore="0">
                     <label>Running jobs limit</label>
                     <validate>validate-number validate-zero-or-greater</validate>
