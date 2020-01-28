@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2019 Mygento (https://www.mygento.ru)
+ * @copyright 2019-2020 Mygento (https://www.mygento.ru)
  * @package Mygento_CronScheduler
  */
 
@@ -114,8 +114,8 @@ class Timeline extends \Magento\Backend\Block\Template
         foreach ($schedules as $schedule) {
             $start = $schedule->getExecutedAt();
 
-            $minDate = is_null($minDate) ? $start : min($minDate, $start);
-            $maxDate = is_null($maxDate) ? $start : max($maxDate, $start);
+            $minDate = $minDate === null ? $start : min($minDate, $start);
+            $maxDate = $maxDate === null ? $start : max($maxDate, $start);
             $this->schedules[$schedule->getJobCode()][] = $schedule;
         }
 
@@ -126,7 +126,7 @@ class Timeline extends \Magento\Backend\Block\Template
     /**
      * Get attributes for div representing a gantt element
      *
-     * @param $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      * @return string
      */
     public function getScheduleResult($schedule)
@@ -159,7 +159,7 @@ class Timeline extends \Magento\Backend\Block\Template
                 '<div class="timeline-estimation" style="width: %spx; left: %spx;" ></div>',
                 $duration,
                 $offset
-                ) . $result;
+            ) . $result;
         }
 
         return $result;

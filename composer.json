@@ -28,7 +28,7 @@
   },
   "require-dev": {
     "mygento/coding-standard": "^2.13.5",
-    "magento/magento-coding-standard": "~1.0.0"
+    "magento/magento-coding-standard": "~4.0.0"
   },
   "autoload": {
     "files": [
