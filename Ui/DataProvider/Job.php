@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2019-2020 Mygento (https://www.mygento.ru)
+ * @copyright 2019-2022 Mygento (https://www.mygento.ru)
  * @package Mygento_CronScheduler
  */
 
@@ -13,15 +13,17 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
     /**
      * Cron job db xml text
      */
-    const CRON_DB_XML = 'db_xml';
+    public const CRON_DB_XML = 'db_xml';
+
     /**
      * Cron job db text
      */
-    const CRON_DB = 'db';
+    public const CRON_DB = 'db';
+
     /**
      * Cron job xml text
      */
-    const CRON_XML = 'xml';
+    public const CRON_XML = 'xml';
 
     /**
      * @var array
@@ -64,7 +66,6 @@ class Job extends \Magento\Ui\DataProvider\AbstractDataProvider
     private $cronConfig;
 
     private $size = 20;
-
     private $offset = 1;
 
     public function __construct(

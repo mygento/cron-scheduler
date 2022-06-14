@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2019-2020 Mygento (https://www.mygento.ru)
+ * @copyright 2019-2022 Mygento (https://www.mygento.ru)
  * @package Mygento_CronScheduler
  */
 
@@ -10,7 +10,7 @@ namespace Mygento\CronScheduler\Block\Adminhtml;
 
 class Timeline extends \Magento\Backend\Block\Template
 {
-    const ZOOM = 15;
+    public const ZOOM = 15;
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
